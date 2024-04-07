@@ -59,3 +59,8 @@ SystemReplicatedStorage
 
 
 ### How to Allow Scripts?
+
+You mith have noticed this when u tried to call a function inside the **SystemModule**
+<p align="center">
+   <img src="J232U.PNG">
+</p>
