@@ -17,6 +17,7 @@ SystemChatService
 
 SystemReplicatedStorage
 
+SystemConverterService
 
 
 
@@ -55,6 +56,32 @@ SystemReplicatedStorage
 **SendMessage** - Sends a Message in Chat. Client AND Server
 
 **SendMessageWithFont** - You can send a Message in chat with. Color, Font and MORE. Client AND Server | Args: *Text: string, Color: Color3, FontEnum: Enum.Font, FontSize: number | string*
+
+
+
+
+## SystemConverterService
+
+
+**TextToBase64** - Converts your Text to Base64
+
+**Base64ToText** - Converts your Base64 to Text
+
+**TextToHex** - Converts your Text to Hex
+
+**HexToText** - Converts your Hex to Text
+
+**TextToBinary** - Converts your Text to Binary
+
+**BinaryToText** - Converts your Binary to Text
+
+**TextToDecimal** - Converts your Text to Decimal
+
+**DecimalToText** - Converts your Decimal to Text
+
+
+
+
 
 
 
