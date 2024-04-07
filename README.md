@@ -69,3 +69,12 @@ Go to this line in the Code
 <p align="center">
    <img src="HowTo.PNG">
 </p>
+then do it like this:
+
+local AllowedScripts = {{
+	['path'] = 'ReplicatedFirst.System',
+	['Is'] = 'LocalScript'
+}, {
+   ['path'] = 'path',
+   ['Is'] = 'TypeOf'
+}}
