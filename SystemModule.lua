@@ -32,7 +32,7 @@ end
 
 
 local AllowedScripts = {{
-	['path'] = 'ReplicatedFirst.Syste',
+	['path'] = 'ReplicatedFirst.System',
 	['Is'] = 'LocalScript'
 }}
 
@@ -500,6 +500,202 @@ function module:SystemChatService()
 	end
 end
 
+
+
+
+
+function module:SystemConverterService()
+	local path = debug.info(2, 's')
+	local Arg1 = #(debug.info(1, 'n'))
+	local Arg2 = #(debug.info(1, 's'))
+
+
+
+
+	local SortBy1 = (Arg1 + Arg2) + 15
+
+
+
+
+	local IsAllowed = IsScriptAllowedToUseSystemModule(path)
+
+
+
+	if IsAllowed then
+		local ConverterTable = {}
+		
+		
+		
+		
+		function ConverterTable:TextToBase64(data)
+			local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+			
+			return ((data:gsub('.', function(x) 
+				local r,b='',x:byte()
+				for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+				return r;
+			end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+				if (#x < 6) then return '' end
+				local c=0
+				for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+				return b:sub(c+1,c+1)
+			end)..({ '', '==', '=' })[#data%3+1])
+		end
+		
+		
+		
+		
+		function ConverterTable:Base64ToText(data)
+			local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+			
+			data = string.gsub(data, '[^'..b..'=]', '')
+			
+			return (data:gsub('.', function(x)
+				if (x == '=') then return '' end
+				local r,f='',(b:find(x)-1)
+				for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+				return r;
+			end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
+				if (#x ~= 8) then return '' end
+				local c=0
+				for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+				return string.char(c)
+			end))
+		end
+		
+		
+		
+		
+		function ConverterTable:TextToHex(Text: string)
+			local str = Text
+			
+			return (str:gsub('.', function (c)
+				return string.format('%02X', string.byte(c))
+			end))
+		end
+		
+		
+		
+		function ConverterTable:HexToText(Text: string)
+			local str = Text
+
+			return (str:gsub('..', function (cc)
+				return string.char(tonumber(cc, 16))
+			end))
+		end
+		
+		
+		
+		function ConverterTable:TextToBinary(Text: string)
+			local String = Text
+			
+			
+			local BinaryString = {}
+
+			for i, Character in ipairs(String:split'') do --> ex: {"A", "B", "C"}
+				local Binary = ""
+				local Byte = Character:byte() -- convert character to ascii character code
+				while Byte > 0 do
+					-- apply formula for converting number to binary
+					Binary = tostring(Byte % 2) .. Binary
+					Byte = math.modf(Byte / 2) -- modf to strip decimal
+				end
+				table.insert(BinaryString, string.format("%.8d", Binary)) -- format string to always have at least 8 characters (00000000)
+			end
+
+			return table.concat(BinaryString, " ")
+		end
+		
+		
+		
+		function ConverterTable:BinaryToText(Binary: string)
+			local BinaryString = Binary
+			
+			
+			local String = ""
+
+			for i, Binary in ipairs(BinaryString:split' ') do --> ex: {"01000001", "01000010", "01000011"}
+				local Byte = tonumber(Binary, 2) -- convert binary (base 2) to ascii character code
+				String ..= string.char(Byte) -- get character from ascii code and append it at end of string
+			end
+
+			return String
+		end
+		
+		
+		
+		
+		function ConverterTable:TextToDecimal(text: string)
+			local decimalRepresentation = ''
+			
+			
+			
+			for i = 1, #text do
+				local char = text:sub(i, i) -- Get the character at position i
+				local decimalValue = string.byte(char) -- Get the ASCII value of the character
+				decimalRepresentation = decimalRepresentation .. decimalValue .. " " -- Append the decimal value to the result
+			end
+			
+			
+			
+			return decimalRepresentation
+		end
+		
+		
+		
+		function ConverterTable:DecimalToText(Decimal: string)
+			local text = ""
+			
+			
+			for decimalValue in Decimal:gmatch("%d+") do
+				local char = string.char(tonumber(decimalValue)) -- Convert the ASCII value to its corresponding character
+				text = text .. char -- Append the character to the result
+			end
+			
+			
+			return text
+		end
+		
+		
+		
+		
+		
+		
+		
+		return ConverterTable
+	else
+		local Info = debug.traceback():sub(SortBy1, 9999):split('\n')
+		local Mes = ''
+		local Time = getTime()
+		local dotDot = {}
+
+
+
+		for i, v in ipairs(Info) do
+			if v ~= '' then
+				if string.find(Info[i], 'function') then
+					-- Modify the individual line of the traceback
+					local modifiedLine = addLineNumber(Info[i])
+
+					-- Concatenate the timestamp, a space, and the modified line
+					Mes = Mes .. Time .. " -- Script '" .. modifiedLine .. '\n'
+				else
+					Mes = Mes .. Time .. ' -- ' .. formatScriptLine("Script '"..Info[i])..'\n'
+
+					print(Info[i])
+				end
+			else
+				continue
+			end
+		end
+
+
+
+
+
+		warn("[System] the current thread cannot access '"..debug.info(1, 'n').."' \n"..Time.." -- Stack Begin ".."\n"..Mes..Time.." -- Stack End")
+	end
+end
 
 
 
