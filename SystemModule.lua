@@ -9,6 +9,8 @@ local PlayerService = game:GetService('Players')
 
 
 
+
+
 local function formatScriptLine(input)
 	local scriptName, line = input:match("Script '([^']+):(%d+)")
 	if scriptName and line then
@@ -382,6 +384,16 @@ function module:SystemChatService()
 		
 		
 		
+		function SystemChatService:SetToOldChat(TrueOrFalse: boolean)
+			if TrueOrFalse == true then
+				TextChatService.ChatVersion = Enum.ChatVersion.LegacyChatService
+			else
+				TextChatService.ChatVersion = Enum.ChatVersion.TextChatService
+			end
+		end
+		
+		
+		
 		
 
 		function SystemChatService:SendMessageInChat()
@@ -659,10 +671,238 @@ function module:SystemConverterService()
 		
 		
 		
+		function ConverterTable:TextToOctal(text: string)
+			local octalRepresentation = ""
+
+			for i = 1, #text do
+				local char = text:sub(i, i) -- Get the character at position i
+				local octalValue = string.format("%o", string.byte(char)) -- Get the octal representation of the ASCII value of the character
+				octalRepresentation = octalRepresentation .. octalValue .. " " -- Append the octal value to the result
+			end
+
+			return octalRepresentation
+		end
+		
+		
+		function ConverterTable:OctalToText(octal: string)
+			local octalString = octal
+			
+			
+			local text = ""
+
+			for octalValue in octalString:gmatch("%d+") do
+				local decimalValue = tonumber(octalValue, 8) -- Convert the octal value to its corresponding decimal value
+				local char = string.char(decimalValue) -- Convert the ASCII value to its corresponding character
+				text = text .. char -- Append the character to the result
+			end
+
+			return text
+		end
+		
+		
+		
 		
 		
 		
 		return ConverterTable
+	else
+		local Info = debug.traceback():sub(SortBy1, 9999):split('\n')
+		local Mes = ''
+		local Time = getTime()
+		local dotDot = {}
+
+
+
+		for i, v in ipairs(Info) do
+			if v ~= '' then
+				if string.find(Info[i], 'function') then
+					-- Modify the individual line of the traceback
+					local modifiedLine = addLineNumber(Info[i])
+
+					-- Concatenate the timestamp, a space, and the modified line
+					Mes = Mes .. Time .. " -- Script '" .. modifiedLine .. '\n'
+				else
+					Mes = Mes .. Time .. ' -- ' .. formatScriptLine("Script '"..Info[i])..'\n'
+
+					print(Info[i])
+				end
+			else
+				continue
+			end
+		end
+
+
+
+
+
+		warn("[System] the current thread cannot access '"..debug.info(1, 'n').."' \n"..Time.." -- Stack Begin ".."\n"..Mes..Time.." -- Stack End")
+	end
+end
+
+
+
+
+function module:SystemMusicService()
+	local path = debug.info(2, 's')
+	local Arg1 = #(debug.info(1, 'n'))
+	local Arg2 = #(debug.info(1, 's'))
+
+
+
+
+	local SortBy1 = (Arg1 + Arg2) + 15
+
+
+
+
+	local IsAllowed = IsScriptAllowedToUseSystemModule(path)
+
+
+
+	if IsAllowed then
+		local MusicService = {}
+		
+		
+		
+		function MusicService:CreateSound(SoundID: number|string)
+			local Sound = Instance.new('Sound')
+			
+			local SoundTable = {}
+			
+			
+			
+			
+			
+			local success, result = pcall(function()
+				if typeof(SoundID) == 'string' then
+					if not string.find(SoundID, 'rbxassetid://') then
+						Sound.SoundId = 'rbxassetid://'..SoundID
+					else
+						Sound.SoundId = SoundID
+					end
+				else
+					Sound.SoundId = 'rbxassetid://'..SoundID
+				end
+			end)
+			
+			
+			
+			
+			
+			if not success then
+				print('There was an Error while loading SoundID\n\n'..tostring(result))
+			end
+			
+			
+			Sound.Parent = game:GetService('ReplicatedStorage')
+			
+			
+			
+			
+			
+			function SoundTable:SetParent(Parent)
+				if not Parent then
+					Sound.Parent = game:GetService('ReplicatedStorage')
+				else
+					if typeof(Parent) == 'Instance' then
+						Sound.Parent = Parent
+					else
+						print('Cannot be anything else than a Instance / Game. \n\n'..tostring(debug.traceback()))
+					end
+				end
+				
+				
+				
+				return SoundTable
+			end
+			
+			
+			
+			
+			
+			function SoundTable:SetName(Name: string)
+				if Name and typeof(Name) == 'string' then
+					Sound.Name = Name
+				else
+					print('Must be a string.\n\n'..tostring(debug.traceback()))
+				end
+
+
+
+				return SoundTable
+			end
+			
+			
+			
+			
+			function SoundTable:SetLooping(trueOrFalse: boolean)
+				if trueOrFalse and typeof(trueOrFalse) == 'boolean' then
+					Sound.Looped = trueOrFalse
+					Sound.PlaybackRegionsEnabled = trueOrFalse
+				else
+					print('Must be a trueOrfalse.\n\n'..tostring(debug.traceback()))
+				end
+			end
+			
+			
+			
+			
+			
+			
+			function SoundTable:SetVolume(Volume: number)
+				if typeof(Volume) == 'number' then
+					Sound.Volume = Volume
+				else
+					print('Must be a Number. \n\n'..tostring(debug.traceback()))
+				end
+				
+				
+				
+				return SoundTable
+			end
+			
+			
+			
+			
+			
+			function SoundTable:Play()
+				local success, result = pcall(function()
+					Sound:Play()
+				end)
+
+
+				if not success then
+					print('There was an Error\n\n'..tostring(result))
+				end
+				
+				
+				
+				return SoundTable
+			end
+			
+			
+			
+			function SoundTable:Stop()
+				local success, result = pcall(function()
+					Sound:Stop()
+				end)
+
+
+				if not success then
+					print('There was an Error\n\n'..tostring(result))
+				end
+				
+				
+				
+				return SoundTable
+			end
+		
+		
+			return SoundTable
+		end
+		
+		
+		return MusicService
 	else
 		local Info = debug.traceback():sub(SortBy1, 9999):split('\n')
 		local Mes = ''
