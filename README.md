@@ -55,3 +55,7 @@ SystemReplicatedStorage
 **SendMessage** - Sends a Message in Chat. Client AND Server
 
 **SendMessageWithFont** - You can send a Message in chat with. Color, Font and MORE. Client AND Server | Args: *Text: string, Color: Color3, FontEnum: Enum.Font, FontSize: number | string*
+
+
+
+### How to Allow Scripts?
