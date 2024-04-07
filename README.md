@@ -1,1 +1,1 @@
-This ModuleScript, i will try to main-tain this Module to always work for the Latest Version of roblox, medout changing any names, so u can always use it
+This ModuleScript has function u can call, and help u make a game better, i will try to main-tain this Module to always work for the Latest Version of roblox, medout changing any names, so u can always use it
