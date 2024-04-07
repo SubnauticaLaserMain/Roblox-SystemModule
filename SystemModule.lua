@@ -32,7 +32,7 @@ end
 
 
 local AllowedScripts = {{
-	['path'] = 'ReplicatedFirst.System',
+	['path'] = 'ReplicatedFirst.Syste',
 	['Is'] = 'LocalScript'
 }}
 
@@ -337,121 +337,175 @@ end
 
 
 function module:SystemChatService()
-	local TextChatService = game:GetService('TextChatService')
-	local ServerScriptService = game:GetService('ServerScriptService')
-	local StarterGui = game:GetService('StarterGui')
+	local path = debug.info(2, 's')
+	local Arg1 = #(debug.info(1, 'n'))
+	local Arg2 = #(debug.info(1, 's'))
+
+
+
+
+	local SortBy1 = (Arg1 + Arg2) + 15
 	
 	
 	
 	
-	
-	
-	local SystemChatService = {}
-	
-	
-	
-	
-	
-	
-	function SystemChatService:IsChatOnLatestVersion()
-		if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-			return true
-		elseif TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService then
-			return false
-		end
-	end
-	
-	
-	
-	
-	
-	function SystemChatService:SendMessageInChat()
-		local SendMessageInChat = {}
+	local IsAllowed = IsScriptAllowedToUseSystemModule(path)
+
+
+
+	if IsAllowed then
+		local TextChatService = game:GetService('TextChatService')
+		local ServerScriptService = game:GetService('ServerScriptService')
+		local StarterGui = game:GetService('StarterGui')
 		
 		
-		-- Make the SendMessge Function
-		function SendMessageInChat:SendMessage(Text: string)
-			if Text then
-				-- Check if Game's ChatVersion is on OLD and then, do this
-				if SystemChatService:IsChatOnLatestVersion() == false then
-					warn('[SystemModule]: This Chat Version is deprecated, Please use TextChatService instead')
-					
-					
-					StarterGui:SetCore('ChatMakeSystemMessage', {
-						Text = Text
-					})
-				else -- else do this
-					local TextChannels = TextChatService:FindFirstChild('TextChannels')
-					
-					
-					if TextChannels then
-						local RBXGeneral = TextChannels.RBXGeneral
-
-
-
-
-
-						
-						RBXGeneral:DisplaySystemMessage(Text)
-					else
-						warn('Cant find TextChannels')
-					end
-				end
+		
+		
+		
+		
+		
+		local SystemChatService = {}
+		
+		
+		
+		
+		
+		
+		function SystemChatService:IsChatOnLatestVersion()
+			if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+				return true
+			elseif TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService then
+				return false
 			end
 		end
 		
 		
 		
-		--- same crap
-		function SendMessageInChat:SendMessageWithFont(Text: string, Color: Color3, FontEnum: Enum.Font, FontSize: number|string)
-			if Text and Color and Font and FontSize then
-				if SystemChatService:IsChatOnLatestVersion() == false then
-					warn('[SystemModule]: This Chat Version is deprecated, Please use TextChatService instead')
-					
-					
-					StarterGui:SetCore('ChatMakeSystemMessage', {
-						Text = Text,
-						Color = Color,
-						Font = FontEnum,
-						FontSize = FontSize
-					})
-				else
-					local TextChannels = TextChatService:FindFirstChild('TextChannels')
-					
-					
-					
-					if TextChannels then
-						local RBXGeneral = TextChannels.RBXGeneral
+		
+		
+
+		function SystemChatService:SendMessageInChat()
+			local SendMessageInChat = {}
+			
+			
+			-- Make the SendMessge Function
+			function SendMessageInChat:SendMessage(Text: string)
+				if Text then
+					-- Check if Game's ChatVersion is on OLD and then, do this
+					if SystemChatService:IsChatOnLatestVersion() == false then
+						warn('[SystemModule]: This Chat Version is deprecated, Please use TextChatService instead')
 						
 						
+						StarterGui:SetCore('ChatMakeSystemMessage', {
+							Text = Text
+						})
+					else -- else do this
+						local TextChannels = TextChatService:FindFirstChild('TextChannels')
 						
-						if tonumber(FontSize) == nil then
-							FontSize = 16
+						
+						if TextChannels then
+							local RBXGeneral = TextChannels.RBXGeneral
+
+
+
+
+
+							
+							RBXGeneral:DisplaySystemMessage(Text)
+						else
+							warn('Cant find TextChannels')
 						end
-						
-						
-						
-						
-						RBXGeneral:DisplaySystemMessage("<font color='#"..Color:ToHex().."'><font face='"..FontEnum.Name.."'><font size='"..tonumber(FontSize).."'>"..Text.."</font></font></font>")
-					else
-						warn('Cant find TextChannels')
 					end
 				end
 			end
+			
+			
+			
+			--- same crap
+			function SendMessageInChat:SendMessageWithFont(Text: string, Color: Color3, FontEnum: Enum.Font, FontSize: number|string)
+				if Text and Color and Font and FontSize then
+					if SystemChatService:IsChatOnLatestVersion() == false then
+						warn('[SystemModule]: This Chat Version is deprecated, Please use TextChatService instead')
+						
+						
+						StarterGui:SetCore('ChatMakeSystemMessage', {
+							Text = Text,
+							Color = Color,
+							Font = FontEnum,
+							FontSize = FontSize
+						})
+					else
+						local TextChannels = TextChatService:FindFirstChild('TextChannels')
+						
+						
+						
+						if TextChannels then
+							local RBXGeneral = TextChannels.RBXGeneral
+							
+							
+							
+							if tonumber(FontSize) == nil then
+								FontSize = 16
+							end
+							
+							
+							
+							
+							RBXGeneral:DisplaySystemMessage("<font color='#"..Color:ToHex().."'><font face='"..FontEnum.Name.."'><font size='"..tonumber(FontSize).."'>"..Text.."</font></font></font>")
+						else
+							warn('Cant find TextChannels')
+						end
+					end
+				end
+			end
+			
+			
+			
+			
+			return SendMessageInChat
 		end
-		
-		
-		
-		
-		return SendMessageInChat
+	
+		return SystemChatService
+	else
+		local Info = debug.traceback():sub(SortBy1, 9999):split('\n')
+		local Mes = ''
+		local Time = getTime()
+		local dotDot = {}
+
+
+
+		for i, v in ipairs(Info) do
+			if v ~= '' then
+				if string.find(Info[i], 'function') then
+					-- Modify the individual line of the traceback
+					local modifiedLine = addLineNumber(Info[i])
+
+					-- Concatenate the timestamp, a space, and the modified line
+					Mes = Mes .. Time .. " -- Script '" .. modifiedLine .. '\n'
+				else
+					Mes = Mes .. Time .. ' -- ' .. formatScriptLine("Script '"..Info[i])..'\n'
+
+					print(Info[i])
+				end
+			else
+				continue
+			end
+		end
+
+
+
+
+
+		warn("[System] the current thread cannot access '"..debug.info(1, 'n').."' \n"..Time.." -- Stack Begin ".."\n"..Mes..Time.." -- Stack End")
 	end
-	
-	
-	
-	
-	
-	return SystemChatService
 end
+
+
+
+
+
+
+
 
 
 
