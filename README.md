@@ -80,3 +80,5 @@ then do it like this:
    ['path'] = 'path',
    ['Is'] = 'TypeOf'
 }}**
+
+**U CAN ADD AS MANY AS U WANT, JUST REMEMBER TO MAKE IT LIKE THE EXSAMPLE I MADE IN THE CODE, AND U SHOULD BE FINE**
