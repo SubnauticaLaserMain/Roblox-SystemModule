@@ -7,7 +7,7 @@ NOTE: SOME FUNCTIONS WORKS FOR BOTH Client AND Server SIDE SCRIPTS
 
 
 
-Functions:
+## Functions:
 
 
 
@@ -23,7 +23,7 @@ SystemReplicatedStorage
 
 
 
-SystemPlayerService:
+## SystemPlayerService:
 
 
 **getBackpack** - Returns the Backpack from the Player. Client AND Server
@@ -37,7 +37,7 @@ SystemPlayerService:
 
 
 
-SystemChatService:
+## SystemChatService:
 
 
 **SendMessageInChat** - Contains functions to send Message's in Chat. NOT FROM PLAYER. Client AND Server
@@ -48,7 +48,7 @@ SystemChatService:
 
 
 
-SendMessageInChat:
+### SendMessageInChat:
 
 
 
