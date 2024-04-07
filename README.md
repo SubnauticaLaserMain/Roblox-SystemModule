@@ -45,6 +45,8 @@ SystemConverterService
 
 **IsChatOnLatestVersion** - Returns FALSE if Chat is on LEGACYCHATSERVICE. Client AND Server
 
+**SetToOldChat** - If Set to TRUE then it will set the chatVersion to LegacyChatService
+
 
 
 
@@ -79,6 +81,28 @@ SystemConverterService
 
 **DecimalToText** - Converts your Decimal to Text
 
+
+
+
+## SystemMusicService
+
+**CreateSound** - Creates the Sound inside ReplicatedStorage. Can be changed.
+
+
+
+### CreateSound
+
+**SetParent** - Set Where the Sound is Located in the Game
+
+**SetName** - Set the Name of the Sound Instance
+
+**SetLooping** - If TRUE then it will Loop the Sound, If FALSE then Stop the Looping
+
+**SetVolume** - Set the Volume to whatever u want in range of. **1 - 10**
+
+**Play** - Plays the Sound
+
+**Stop** - Stops the Sound
 
 
 
