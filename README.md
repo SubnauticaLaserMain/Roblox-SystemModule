@@ -64,3 +64,8 @@ You mith have noticed this when u tried to call a function inside the **SystemMo
 <p align="center">
    <img src="J232U.PNG">
 </p>
+## How to Fix
+Go to this line in the Code
+<p align="center">
+   <img src="HowTo.PNG">
+</p>
