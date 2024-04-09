@@ -382,16 +382,7 @@ function module:SystemChatService()
 		end
 		
 		
-		
-		
-		function SystemChatService:SetToOldChat(TrueOrFalse: boolean)
-			if TrueOrFalse == true then
-				TextChatService.ChatVersion = Enum.ChatVersion.LegacyChatService
-			else
-				TextChatService.ChatVersion = Enum.ChatVersion.TextChatService
-			end
-		end
-		
+
 		
 		
 		
