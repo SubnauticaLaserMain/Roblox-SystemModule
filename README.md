@@ -45,7 +45,6 @@ SystemConverterService
 
 **IsChatOnLatestVersion** - Returns FALSE if Chat is on LEGACYCHATSERVICE. Client AND Server
 
-**SetToOldChat** - If Set to TRUE then it will set the chatVersion to LegacyChatService
 
 
 
